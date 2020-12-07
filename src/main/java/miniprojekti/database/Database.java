@@ -62,7 +62,7 @@ public class Database {
                         + "	PRIMARY KEY (id),"
                         + "	FOREIGN KEY(tip_id) REFERENCES tip (id) ON DELETE CASCADE"
                         + ")");
-                s.execute("CREATE TABLE IF NOT EXISTS user ("
+                s.execute("CREATE TABLE IF NOT EXISTS account ("
                         + "     id INTEGER NOT NULL,"
                         + "     name VARCHAR(144),"
                         + "     password_hash VARCHAR(144),"
@@ -108,7 +108,7 @@ public class Database {
                         + "	url VARCHAR(255),"
                         + "	FOREIGN KEY(tip_id) REFERENCES tip (id) ON DELETE CASCADE"
                         + ")");
-                s.execute("CREATE TABLE IF NOT EXISTS user ("
+                s.execute("CREATE TABLE IF NOT EXISTS account ("
                         + "     id SERIAL PRIMARY KEY,"
                         + "     name VARCHAR(255),"
                         + "     password_hash VARCHAR(255),"

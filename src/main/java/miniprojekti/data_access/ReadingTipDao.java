@@ -314,7 +314,7 @@ public class ReadingTipDao implements Dao {
     @Override
     public String[] findUser(String username) {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT password_hash, salt FROM user WHERE name=?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT password_hash, salt FROM account WHERE name=?");
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
