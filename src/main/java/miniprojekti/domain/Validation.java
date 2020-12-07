@@ -94,7 +94,7 @@ public class Validation {
             if (required) {
                 errorMessages.add(fieldError(attr) + "must be filled");
             }
-        } else if (field.length() < 3 || field.length() > 30) {
+        } else if (field.length() < 3 || field.length() > 50) {
             errorMessages.add(fieldError(attr) + "must be 3-30 characters long");
         }
     }
