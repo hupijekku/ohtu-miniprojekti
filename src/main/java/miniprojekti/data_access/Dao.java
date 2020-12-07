@@ -22,4 +22,6 @@ public interface Dao {
     
     int updateTip(Tip tip);
     
+    String[] findUser(String username);
+    
 }

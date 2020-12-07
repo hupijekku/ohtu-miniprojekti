@@ -22,6 +22,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.Spark;
+import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
@@ -34,9 +35,14 @@ public class Main {
     private final static Logic LOGIC = new Logic();
     private static final String LAYOUT = "templates/layout.html";
     private final static Validation VALIDATOR = new Validation();
+    private static final String SESSION_NAME = "session";
 
     public static void main(String[] args) {
         Spark.port(portSelection());
+        
+        checkSession();
+        getLoginPage();
+        handleLogin();
         getIndexPage();
         postReadingTip();
         getReadingTipsPage();
@@ -45,9 +51,48 @@ public class Main {
         deleteTip();
         editTip();
     }
+    
+    private static void checkSession() {
+        before((req, res) -> {
+            String session = req.session().attribute(SESSION_NAME);
+            if (session == null && !req.pathInfo().equals("/")) {
+                res.redirect("/");
+            }
+        });
+    }
+    
+    private static void getLoginPage() {
+        get("/", (req, res) -> {
+            String session = req.session().attribute(SESSION_NAME);
+            if (session != null) {
+                res.redirect("/index");
+            }
+            HashMap<String, Object> model = new HashMap<>();
+            model.put("template", "templates/login.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+    }
+    
+    private static void handleLogin() {
+        post("/login", (req, res) ->  {
+            HashMap<String, Object> model = new HashMap<>();
+            String username = req.queryParams("username");
+            String password = req.queryParams("password");
+            boolean logged = LOGIC.validateUser(username, password);
+            if (logged) {
+                req.session().attribute(SESSION_NAME, username);
+                model.put("logged", "Successfully logged in as " + username);
+                model.put("template", "templates/index.html");
+            } else {
+                model.put("logged", "Incorrect username or password");
+                model.put("template", "templates/login.html");
+            }
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+    }
 
     private static void getIndexPage() {
-        get("/", (req, res) -> {
+        get("/index", (req, res) -> {
             HashMap<String, Object> model = new HashMap<>();
             String types = "All";
             try {

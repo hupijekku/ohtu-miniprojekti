@@ -310,4 +310,25 @@ public class ReadingTipDao implements Dao {
         return rowsUpdated;
     }
     
+    
+    @Override
+    public String[] findUser(String username) {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT password_hash, salt FROM user WHERE name=?");
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String[] returnValue = new String[2];
+                returnValue[0] = rs.getString("password_hash");
+                returnValue[1] = rs.getString("salt");
+                return returnValue;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
 }

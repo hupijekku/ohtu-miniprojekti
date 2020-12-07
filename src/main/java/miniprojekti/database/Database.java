@@ -62,6 +62,12 @@ public class Database {
                         + "	PRIMARY KEY (id),"
                         + "	FOREIGN KEY(tip_id) REFERENCES tip (id) ON DELETE CASCADE"
                         + ")");
+                s.execute("CREATE TABLE IF NOT EXISTS user ("
+                        + "     id INTEGER NOT NULL,"
+                        + "     name VARCHAR(144),"
+                        + "     password_hash VARCHAR(144),"
+                        + "     salt VARCHAR(144)"
+                        + ")");
             } else {
                 s.execute("CREATE TABLE IF NOT EXISTS readingtip "
                         + "(id SERIAL PRIMARY KEY, "
@@ -101,6 +107,12 @@ public class Database {
                         + "	description VARCHAR(255),"
                         + "	url VARCHAR(255),"
                         + "	FOREIGN KEY(tip_id) REFERENCES tip (id) ON DELETE CASCADE"
+                        + ")");
+                s.execute("CREATE TABLE IF NOT EXISTS user ("
+                        + "     id SERIAL PRIMARY KEY,"
+                        + "     name VARCHAR(255),"
+                        + "     password_hash VARCHAR(255),"
+                        + "     salt VARCAHR(255)"
                         + ")");
             }
 

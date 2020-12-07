@@ -192,5 +192,17 @@ public class Logic {
             tipMap.put("url", blogp.getUrl());
         }
     }
+    
+    public boolean validateUser(String username, String password) {
+        String[] result = readingTipDao.findUser(username);
+        if (result != null) {
+            if (Authentication.verifyUser(password, result[1], result[0])) {
+                System.out.println("Password correct");
+                return true;
+            }
+        }
+        System.out.println("Password incorrect");
+        return false;
+    }
 
 }
