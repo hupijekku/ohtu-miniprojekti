@@ -292,7 +292,7 @@ public class ReadingTipDao implements Dao {
                     break;
                 case "Podcast":
                     PodcastTip podcastTip = (PodcastTip) tip;
-                    stmt = conn.prepareStatement("UPDATE podcast SET author=? description=? url=? WHERE tip_id=?");
+                    stmt = conn.prepareStatement("UPDATE podcast SET author=?, description=?, url=? WHERE tip_id=?");
                     stmt.setString(1, podcastTip.getAuthor());
                     stmt.setString(2, podcastTip.getDescription());
                     stmt.setString(3, podcastTip.getUrl());
