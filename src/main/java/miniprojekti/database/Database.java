@@ -112,7 +112,7 @@ public class Database {
                         + "     id SERIAL PRIMARY KEY,"
                         + "     name VARCHAR(255),"
                         + "     password_hash VARCHAR(255),"
-                        + "     salt VARCAHR(255)"
+                        + "     salt VARCHAR(255)"
                         + ")");
             }
 
