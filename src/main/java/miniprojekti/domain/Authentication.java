@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package miniprojekti.domain;
 
 import java.security.SecureRandom;
@@ -12,10 +7,6 @@ import java.util.Random;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-/**
- *
- * @author eemes
- */
 public class Authentication {
     
     private static final SecureRandom RANDOM = new SecureRandom();
