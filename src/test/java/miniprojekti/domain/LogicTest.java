@@ -12,7 +12,7 @@ public class LogicTest {
 
     public LogicTest() {
     }
-/*
+    
     @Before
     public void setUp() {
         testDao = mock(ReadingTipDao.class);
@@ -88,7 +88,6 @@ public class LogicTest {
         verify(testDao).save(any(BlogpostTip.class));
     }
    
-
     @Test
     public void tipIsDeletedByID() {
         l.deleteTipByID(0);
@@ -100,7 +99,5 @@ public class LogicTest {
         String title = "title";
         l.deleteTipByTitle(title);
         verify(testDao).deleteByTitle(title);
-    }
-
- */   
+    }  
 }
