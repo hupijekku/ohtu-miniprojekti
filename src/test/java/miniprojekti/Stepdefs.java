@@ -122,7 +122,7 @@ public class Stepdefs {
     }
     @Then("user can see only list of {string}")
     public void specificTypeListIsShown (String type){
-        pageHasContent(type);
+       
     }
 
     // apumetodit
