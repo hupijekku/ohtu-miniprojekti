@@ -1,32 +1,22 @@
 package miniprojekti;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import miniprojekti.data_access.ReadingTipDao;
-import miniprojekti.database.Database;
 import miniprojekti.domain.BlogpostTip;
 import miniprojekti.domain.BookTip;
 import miniprojekti.domain.Logic;
 import miniprojekti.domain.PodcastTip;
-import miniprojekti.domain.ReadingTip;
 import miniprojekti.domain.Tip;
-import miniprojekti.domain.TipFactory;
 import miniprojekti.domain.Validation;
 import miniprojekti.domain.VideoTip;
 import spark.ModelAndView;
-import spark.Redirect;
 import spark.Request;
-import spark.Response;
-import spark.Route;
 import spark.Spark;
 import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.Spark.put;
-import static spark.Spark.delete;
 import spark.template.velocity.VelocityTemplateEngine;
 
 // Main tulee toimimaan Controllerina
