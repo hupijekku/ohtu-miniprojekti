@@ -13,3 +13,4 @@ DoD:
 - Sovellus on aina asiakkaan käytettävissä.
 
 ![GitHub Actions](https://github.com/hupijekku/ohtu-miniprojekti/workflows/Java%20CI%20with%20Gradle/badge.svg)
+[![codecov](https://codecov.io/gh/hupijekku/ohtu-miniprojekti/branch/main/graph/badge.svg?token=7YDHUQV22T)](https://codecov.io/gh/hupijekku/ohtu-miniprojekti)
