@@ -3,7 +3,6 @@ package miniprojekti.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.net.URI; 
-import java.net.URISyntaxException;
 import java.sql.Statement;
 import org.sqlite.SQLiteConfig;
 
