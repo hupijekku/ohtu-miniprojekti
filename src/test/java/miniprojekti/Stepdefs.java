@@ -34,57 +34,126 @@ public class Stepdefs {
         logic = new Logic(testdao);
     }
 
+    @Given("user is on the login page")
+    public void loginPage() {
+        driver.get(baseUrl);
+    }
+
+    @When("correct username {string} and correct password {string} are entered")
+    public void canLoginWithRightCredentials(String username, String password) {
+        assertTrue(driver.getCurrentUrl().equals(baseUrl));
+        login(username, password);
+        driver.navigate().refresh();
+    }
+
+    @Then("user will be redirected to {string}")
+    public void userWillBeRedirectedTo(String s) {
+        assertTrue(driver.getCurrentUrl().equals(baseUrl + s));
+    }
+
+    @When("correct username {string} and wrong password {string} are entered")
+    public void cannotLoginWithWrongPassword(String username, String password) {
+        assertTrue(driver.getCurrentUrl().equals(baseUrl));
+        login(username, password);
+    }
+
+    @When("nonexistent username {string} and password {string} are entered")
+    public void cannotLoginWithNonexistentUse(String username, String password) {
+        assertTrue(driver.getCurrentUrl().equals(baseUrl));
+        login(username, password);
+    }
+
+    @Given("user is logged in")
+    public void loginForTests() {
+        driver.get(baseUrl);
+        login("test", "pass");
+    }
+
     @Given("add is selected")
     public void addIsSelected() {
-        driver.get(baseUrl);
-        assertTrue(driver.getPageSource().contains("Adding a new tip"));
+        driver.get(baseUrl + "add?tipTypes=book");
+        pageHasContent("Add book");
     }
 
-    @When("new reading tip is entered")
-    public void newReadingTipIsEntered() {
-        WebElement element = driver.findElement(By.name("author"));
-        element = fillTheFields(element);
-        assertNotNull(driver.findElement(By.name("author")).toString());
-        assertNotNull(driver.findElement(By.name("title")).toString());
-        assertNotNull(driver.findElement(By.name("url")).toString());
+    @When("new tip is entered with proper values")
+    public void newTipIsEnteredProperly() {
+        WebElement element = driver.findElement(By.name("title"));
+        element = fillTheFieldsProperly(element);
     }
 
-    @Then("new reading tip is added")
-    public void newReadingTipIsAdded() {
-        WebElement element = driver.findElement(By.name("author"));
-        element = fillTheFields(element);
+    @Then("new tip is added")
+    public void newTipIsAdded() {
+        WebElement element = driver.findElement(By.name("title"));
+        element = fillTheFieldsProperly(element);
         element.submit();
         pageHasContent("Tip added succesfully");
     }
 
-    @Given("User is on the frontpage")
-    public void isFrontPage() {
-        driver.get(baseUrl);
-        pageHasContent("Adding a new tip");
+    @When("new tip is entered with invalid values")
+    public void newTipIsEnteredIncorrectly() {
+        WebElement element = driver.findElement(By.name("title"));
+        element.submit();
     }
 
-    @Then("User can see the list")
+    @Then("system will respond with errors")
+    public void addingaTipHasErrors() {
+        pageHasContent("Errors:");
+    }
+
+    @Given("user is on the frontpage")
+    public void isFrontPage() {
+        driver.get(baseUrl + "index");
+        pageHasContent("Reading tips");
+    }
+
+    @Then("user can see the list")
     public void listIsShown() {
-        List<WebElement> elements = driver.findElements(By.name("author"));
-        verify(testdao).equals(elements);
+        pageHasContent("type");
+        pageHasContent("title");
+
+    }
+    @When("user selects {string} from the menu")
+    public void specificTypeListIsSelected(String type){
+        WebElement element = driver.findElement(By.name("tipTypes"));
+        element.click();
+        element.sendKeys(type);
+        element.submit();
+       
+    }
+    @Then("user can see only list of {string}")
+    public void specificTypeListIsShown (String type){
+        pageHasContent(type);
     }
 
     // apumetodit
+    private void login(String username, String password) {
+        WebElement element = driver.findElement(By.name("username"));
+        element.sendKeys(username);
+        element = driver.findElement(By.name("password"));
+        element.sendKeys(password);
+        element.submit();
+    }
 
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
 
-    private WebElement fillTheFields(WebElement element) {
-        element = driver.findElement(By.name("author"));
-        element.clear();
-        element.sendKeys("testiAuthor");
+    private WebElement fillTheFieldsProperly(WebElement element) {
         element = driver.findElement(By.name("title"));
         element.clear();
-        element.sendKeys("testiTitle");
+        element.sendKeys("testTitle");
+        element = driver.findElement(By.name("note"));
+        element.clear();
+        element.sendKeys("testNote");
         element = driver.findElement(By.name("url"));
         element.clear();
-        element.sendKeys("www.fi");
+        element.sendKeys("https://test.com");
+        element = driver.findElement(By.name("author"));
+        element.clear();
+        element.sendKeys("testAuthor");
+        element = driver.findElement(By.name("isbn"));
+        element.clear();
+        element.sendKeys("9780201616224");
         return element;
     }
 }
