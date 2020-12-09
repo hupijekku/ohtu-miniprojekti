@@ -66,7 +66,7 @@ public class Stepdefs {
     @Given("user is logged in")
     public void loginForTests() {
         driver.get(baseUrl);
-        login("test", "pass");
+        login("vihannes", "pass");
     }
 
     @Given("add is selected")
@@ -112,17 +112,55 @@ public class Stepdefs {
         pageHasContent("title");
 
     }
+
     @When("user selects {string} from the menu")
-    public void specificTypeListIsSelected(String type){
+    public void specificTypeListIsSelected(String type) {
         WebElement element = driver.findElement(By.name("tipTypes"));
         element.click();
         element.sendKeys(type);
         element.submit();
-       
+
     }
+
     @Then("user can see only list of {string}")
-    public void specificTypeListIsShown (String type){
-       
+    public void specificTypeListIsShown(String type) {
+
+    }
+
+    @When("user types username and password to register")
+    public void createNewUser() {
+        Random r = new Random();
+
+        WebElement element = driver.findElement(By.id("registerForm").name("username"));
+        element.sendKeys("jafwhoifa" + r.nextInt(100000));
+        element = driver.findElement(By.id("registerForm").name("password"));
+        element.sendKeys("5i2395as" + r.nextInt(10000));
+        element.submit();
+    }
+    @Then("new user is created")
+    public void userCreated() {
+        pageHasContent("Log in");
+    }
+    @When("user has created a book")
+    public void readyForEditing() {
+        pageHasContent("Book");
+    }
+    @When("user edits the title")
+    public void canEditTitle(){
+        Random random = new Random();
+        //element = driver.findElement(By.xpath("//button[contains(.,'Open')]"));
+        //element.click();
+        driver.get(baseUrl + "/tips/3");
+        pageHasContent("Edit a");
+        //WebElement element = driver.findElement(By.name("editButton"));
+        //element.click();
+        //element = driver.findElement(By.name("title"));
+        //element.sendKeys("CucumberEdit" + random.nextInt(10000));
+        //element.submit();
+    }
+    @Then("the tip gets saved")
+    public void editOK(){
+        //pageHasContent("Tip edited succesfully");
     }
 
     // apumetodit
