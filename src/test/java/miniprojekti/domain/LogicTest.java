@@ -5,6 +5,7 @@ import miniprojekti.data_access.*;
 import org.junit.*;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyInt;
 
 public class LogicTest {
     ReadingTipDao testDao;
@@ -35,7 +36,7 @@ public class LogicTest {
         tipMap.put("isbn", "isbn");
         tipMap.put("url", "url");
         l.saveNewTip(tipMap, 0);
-        verify(testDao).save(any(BookTip.class), 0);
+        verify(testDao).save(any(BookTip.class), anyInt());
     }
 
     @Test
@@ -61,7 +62,7 @@ public class LogicTest {
         tipMap.put("description", "description");
         tipMap.put("url", "url");
         l.saveNewTip(tipMap, 0);
-        verify(testDao).save(any(PodcastTip.class), 0);
+        verify(testDao).save(any(PodcastTip.class), anyInt());
     }
 
     @Test
@@ -73,11 +74,11 @@ public class LogicTest {
         tipMap.put("type", "video");
         tipMap.put("url", "url");
         l.saveNewTip(tipMap, 0);
-        verify(testDao).save(any(VideoTip.class), 0);
+        verify(testDao).save(any(VideoTip.class), anyInt());
     }
 
     @Test
-    public void newBlopostTipIsSaved() {
+    public void newBlogpostTipIsSaved() {
         HashMap<String, String> tipMap = new HashMap<>();
         tipMap.put("id", "1");
         tipMap.put("title", "title");
@@ -85,7 +86,7 @@ public class LogicTest {
         tipMap.put("note", "note");
         tipMap.put("url", "url");
         l.saveNewTip(tipMap, 0);
-        verify(testDao).save(any(BlogpostTip.class), 0);
+        verify(testDao).save(any(BlogpostTip.class), anyInt());
     }
    
     @Test
