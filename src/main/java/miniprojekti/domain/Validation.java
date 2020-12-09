@@ -75,7 +75,7 @@ public class Validation {
     }
     
     private static void validUrl(String field, boolean required) {
-        if (field.isBlank()) {
+        if (field.isEmpty()) {
             if (required) {
                 errorMessages.add(fieldError("url") + "must be filled");
             }
@@ -90,7 +90,7 @@ public class Validation {
     }
     
     private static void validLength(String field, String attr, boolean required) {
-        if (field.isBlank()) {
+        if (field.isEmpty()) {
             if (required) {
                 errorMessages.add(fieldError(attr) + "must be filled");
             }
@@ -100,7 +100,7 @@ public class Validation {
     }
     
     private static void validISBN(String field) {
-        if (field.isBlank()) {
+        if (field.isEmpty()) {
             return;
         }
         

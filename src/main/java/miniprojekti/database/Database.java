@@ -24,10 +24,12 @@ public class Database {
                     "url VARCHAR(255))");
                 s.execute("CREATE TABLE IF NOT EXISTS tip ("
                         + "	id INTEGER NOT NULL,"
+                        + "     account_id INTEGER NOT NULL,"
                         + "	title VARCHAR(144),"
                         + "	type VARCHAR(144),"
                         + "	note VARCHAR(144),"
-                        + "	PRIMARY KEY (id)"
+                        + "	PRIMARY KEY (id),"
+                        + "	FOREIGN KEY(account_id) REFERENCES account (id) ON DELETE CASCADE"
                         + ")");
                 s.execute("CREATE TABLE IF NOT EXISTS book ("
                         + "	id INTEGER NOT NULL,"
@@ -65,7 +67,8 @@ public class Database {
                         + "     id INTEGER NOT NULL,"
                         + "     name VARCHAR(144),"
                         + "     password_hash VARCHAR(144),"
-                        + "     salt VARCHAR(144)"
+                        + "     salt VARCHAR(144),"
+                        + "	PRIMARY KEY (id)"
                         + ")");
             } else {
                 s.execute("CREATE TABLE IF NOT EXISTS readingtip "
@@ -75,9 +78,11 @@ public class Database {
                         + "url VARCHAR(255))");
                 s.execute("CREATE TABLE IF NOT EXISTS tip ("
                         + "	id SERIAL PRIMARY KEY,"
+                        + "     account_id INT NOT NULL,"
                         + "	title VARCHAR(255),"
                         + "	type VARCHAR(255),"
-                        + "	note VARCHAR(255)"
+                        + "	note VARCHAR(255),"
+                        + "	FOREIGN KEY(account_id) REFERENCES account (id) ON DELETE CASCADE"
                         + ")");
                 s.execute("CREATE TABLE IF NOT EXISTS book ("
                         + "	id SERIAL PRIMARY KEY,"

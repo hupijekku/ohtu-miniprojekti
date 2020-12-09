@@ -26,6 +26,7 @@ public class Main {
     private static final String LAYOUT = "templates/layout.html";
     private final static Validation VALIDATOR = new Validation();
     private static final String SESSION_NAME = "session";
+    private static final String USER_ID = "user_id";
 
     public static void main(String[] args) {
         Spark.port(portSelection());
@@ -33,6 +34,7 @@ public class Main {
         checkSession();
         getLoginPage();
         handleLogin();
+        register();
         getIndexPage();
         postReadingTip();
         getReadingTipsPage();
@@ -68,15 +70,27 @@ public class Main {
             HashMap<String, Object> model = new HashMap<>();
             String username = req.queryParams("username");
             String password = req.queryParams("password");
-            boolean logged = LOGIC.validateUser(username, password);
-            if (logged) {
+            int user_id = LOGIC.validateUser(username, password);
+            if (user_id > 0) {
                 req.session().attribute(SESSION_NAME, username);
+                req.session().attribute(USER_ID, user_id);
                 model.put("logged", "Successfully logged in as " + username);
                 model.put("template", "templates/index.html");
             } else {
                 model.put("logged", "Incorrect username or password");
                 model.put("template", "templates/login.html");
             }
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+    }
+    
+    private static void register() {
+        post("/register", (req, res) ->  {
+            String username = req.queryParams("username");
+            String password = req.queryParams("password");
+            LOGIC.registerUser(username, password);
+            HashMap<String, Object> model = new HashMap<>();
+            model.put("template", "templates/login.html");
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
     }
@@ -94,7 +108,8 @@ public class Main {
             }
             
             model.put("template", "templates/index.html");
-            model.put("tips", LOGIC.retrieveAllTipsByType(types));
+            int user_id = req.session().attribute(USER_ID);
+            model.put("tips", LOGIC.retrieveAllTipsByType(types, user_id));
             
             return new ModelAndView(model, LAYOUT);
         },new VelocityTemplateEngine());
@@ -164,7 +179,8 @@ public class Main {
                         break;
                 }
                 model.put("editedTip", "Tip updated!");
-                model.put("tips", LOGIC.retrieveAllTips());
+                int user_id = req.session().attribute(USER_ID);
+                model.put("tips", LOGIC.retrieveAllTips(user_id));
             }     
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
@@ -186,11 +202,12 @@ public class Main {
                 model.put("template", "templates/add.html");
                 model.put("type", type);
             } else {
-                LOGIC.saveNewTip(paramMap);
+                int user_id = req.session().attribute(USER_ID);
+                LOGIC.saveNewTip(paramMap, user_id);
                 
                 model.put("template", "templates/index.html");
                 model.put("tipAdded", "New tip added succesfully");
-                model.put("tips", LOGIC.retrieveAllTips());
+                model.put("tips", LOGIC.retrieveAllTips(user_id));
             }
 
             return new ModelAndView(model, LAYOUT);
@@ -202,7 +219,8 @@ public class Main {
         get("/tips", (req, res) -> {
             HashMap<String, Object> model = new HashMap<>();
 
-            model.put("tips", LOGIC.retrieveAllTips());
+            int user_id = req.session().attribute(USER_ID);
+            model.put("tips", LOGIC.retrieveAllTips(user_id));
             model.put("template", "templates/tips.html");
             
             ArrayList<String> errors = new ArrayList<>();
@@ -218,7 +236,8 @@ public class Main {
             HashMap<String, Object> model = new HashMap<>();
 
             String id = req.params(":id");
-            model.put("tips", LOGIC.retrieveTip(id));
+            int user_id = req.session().attribute(USER_ID);
+            model.put("tips", LOGIC.retrieveTip(id, user_id));
             model.put("template", "templates/tip.html");
 
             return new ModelAndView(model, LAYOUT);

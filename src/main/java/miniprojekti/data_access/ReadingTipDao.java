@@ -44,10 +44,13 @@ public class ReadingTipDao implements Dao {
         return readingTips;
     }
     
-    public List<Tip> findAll_() {
+    public List<Tip> findAll_(int user_id) {
         List<Tip> tips = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
-            ResultSet result = conn.prepareStatement("SELECT id, title, type, note FROM tip").executeQuery();
+            PreparedStatement tmp = conn.prepareStatement("SELECT id, title, type, note FROM tip WHERE account_id = ?");
+            tmp.setInt(1, user_id);
+            
+            ResultSet result = tmp.executeQuery();
             while (result.next()) {
                 PreparedStatement stmt;
                 ResultSet rs;
@@ -118,13 +121,14 @@ public class ReadingTipDao implements Dao {
         return tips;
     }
     
-    public void save(Tip tip) {
+    public void save(Tip tip, int user_id) {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO tip (title, type, note) "
-                    + "VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, tip.getTitle());
-            stmt.setString(2, tip.getType());
-            stmt.setString(3, tip.getNote());
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO tip (account_id, title, type, note) "
+                    + "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, user_id);
+            stmt.setString(2, tip.getTitle());
+            stmt.setString(3, tip.getType());
+            stmt.setString(4, tip.getNote());
             stmt.executeUpdate();
             
             int tipId = 0;
@@ -314,13 +318,14 @@ public class ReadingTipDao implements Dao {
     @Override
     public String[] findUser(String username) {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT password_hash, salt FROM account WHERE name=?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, password_hash, salt FROM account WHERE name=?");
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                String[] returnValue = new String[2];
+                String[] returnValue = new String[3];
                 returnValue[0] = rs.getString("password_hash");
                 returnValue[1] = rs.getString("salt");
+                returnValue[2] = ""+rs.getInt("id");
                 return returnValue;
             } else {
                 return null;
@@ -329,6 +334,18 @@ public class ReadingTipDao implements Dao {
             System.out.println(e);
         }
         return null;
+    }
+    
+    public void registerUser(String username, String password_hash, String salt) {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO account (name, password_hash, salt) VALUES (?, ?, ?)");
+            stmt.setString(1, username);
+            stmt.setString(2, password_hash);
+            stmt.setString(3, salt);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     
 }

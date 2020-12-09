@@ -20,8 +20,8 @@ public class Logic {
         this.readingTipDao = testiTipDao;
     }
 
-    public List<HashMap<String, String>> retrieveAllTips() {
-        List<Tip> tips = readingTipDao.findAll_();
+    public List<HashMap<String, String>> retrieveAllTips(int user_id) {
+        List<Tip> tips = readingTipDao.findAll_(user_id);
         ArrayList<HashMap<String, String>> modelTips = new ArrayList<>();
         
         for (Tip tip : tips) {
@@ -40,9 +40,9 @@ public class Logic {
         return modelTips;
     }
 
-    public List<HashMap<String, String>> retrieveTip(String s) {
+    public List<HashMap<String, String>> retrieveTip(String s, int user_id) {
         int id = Integer.parseInt(s);
-        List<Tip> list = readingTipDao.findAll_();
+        List<Tip> list = readingTipDao.findAll_(user_id);
         ArrayList<HashMap<String, String>> modelTips = new ArrayList<>();
         for (Tip tip : list) {
             if (tip.tipId == id) {
@@ -93,11 +93,11 @@ public class Logic {
         return modelTips;
     }
 
-    public List<HashMap<String, String>> retrieveAllTipsByType(String requested) {
+    public List<HashMap<String, String>> retrieveAllTipsByType(String requested, int user_id) {
         if(requested.equals("All")){
-            return retrieveAllTips();
+            return retrieveAllTips(user_id);
         }
-        List<Tip> tips = readingTipDao.findAll_();
+        List<Tip> tips = readingTipDao.findAll_(user_id);
         ArrayList<HashMap<String, String>> modelTips = new ArrayList<>();
 
         for (Tip tip : tips) {
@@ -149,9 +149,9 @@ public class Logic {
         return modelTips;
     }
 
-    public void saveNewTip(Map<String, String> tipAttributes) {
+    public void saveNewTip(Map<String, String> tipAttributes, int user_id) {
         Tip toSave = TipFactory.createTip(tipAttributes);
-        readingTipDao.save(toSave);
+        readingTipDao.save(toSave, user_id);
     }
 
     public void deleteTipByID(int id) {
@@ -193,16 +193,21 @@ public class Logic {
         }
     }
     
-    public boolean validateUser(String username, String password) {
+    public int validateUser(String username, String password) {
         String[] result = readingTipDao.findUser(username);
         if (result != null) {
             if (Authentication.verifyUser(password, result[1], result[0])) {
                 System.out.println("Password correct");
-                return true;
+                return Integer.parseInt(result[2]);
             }
         }
         System.out.println("Password incorrect");
-        return false;
+        return -1;
     }
 
+    public void registerUser(String username, String password) {
+        String salt = Authentication.getSalt(128);
+        String password_hash = Authentication.generatePassword(password, salt);
+        readingTipDao.registerUser(username, password_hash, salt);
+    }
 }
