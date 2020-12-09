@@ -66,7 +66,7 @@ public class Main {
     }
     
     private static void handleLogin() {
-        get("/login", (req, res) ->  {
+        post("/login", (req, res) ->  {
             HashMap<String, Object> model = new HashMap<>();
             String username = req.queryParams("username");
             String password = req.queryParams("password");
@@ -85,13 +85,12 @@ public class Main {
     }
     
     private static void register() {
-        get("/register", (req, res) ->  {
+        post("/register", (req, res) ->  {
             String username = req.queryParams("username");
             String password = req.queryParams("password");
             LOGIC.registerUser(username, password);
             HashMap<String, Object> model = new HashMap<>();
             model.put("template", "templates/login.html");
-            model.put("logged", "Registered as a new user " + username);
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
     }
