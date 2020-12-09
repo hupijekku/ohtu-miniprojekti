@@ -34,20 +34,20 @@ public class LogicTest {
         tipMap.put("author", "author");
         tipMap.put("isbn", "isbn");
         tipMap.put("url", "url");
-        l.saveNewTip(tipMap);
-        verify(testDao).save(any(BookTip.class));
+        l.saveNewTip(tipMap, 0);
+        verify(testDao).save(any(BookTip.class), 0);
     }
 
     @Test
     public void tipsRetrievedByType(){
-        l.retrieveAllTipsByType("author");
-        verify(testDao).findAll_();
+        l.retrieveAllTipsByType("author", 0);
+        verify(testDao).findAll_(0);
     }
     
     @Test
     public void allTipsRetrieved(){
-        l.retrieveAllTips();
-        verify(testDao).findAll_();
+        l.retrieveAllTips(0);
+        verify(testDao).findAll_(0);
     }
 
     @Test
@@ -60,8 +60,8 @@ public class LogicTest {
         tipMap.put("type", "podcast");
         tipMap.put("description", "description");
         tipMap.put("url", "url");
-        l.saveNewTip(tipMap);
-        verify(testDao).save(any(PodcastTip.class));
+        l.saveNewTip(tipMap, 0);
+        verify(testDao).save(any(PodcastTip.class), 0);
     }
 
     @Test
@@ -72,8 +72,8 @@ public class LogicTest {
         tipMap.put("note", "note");
         tipMap.put("type", "video");
         tipMap.put("url", "url");
-        l.saveNewTip(tipMap);
-        verify(testDao).save(any(VideoTip.class));
+        l.saveNewTip(tipMap, 0);
+        verify(testDao).save(any(VideoTip.class), 0);
     }
 
     @Test
@@ -84,8 +84,8 @@ public class LogicTest {
         tipMap.put("type", "blogpost");
         tipMap.put("note", "note");
         tipMap.put("url", "url");
-        l.saveNewTip(tipMap);
-        verify(testDao).save(any(BlogpostTip.class));
+        l.saveNewTip(tipMap, 0);
+        verify(testDao).save(any(BlogpostTip.class), 0);
     }
    
     @Test
