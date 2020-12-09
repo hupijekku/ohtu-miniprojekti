@@ -1,14 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <h1>Log in</h1>
-{$logged}
-<form action="/login" id="loginForm" method="POST">
+#if ($logged)
+<Strong>{$logged}</Strong>
+#end
+<form action="/login" id="loginForm" method="GET">
     <p> Username: <input name="username"/></p>
     <p> Password: <input name="password" type="password"/></p>
     <input type="submit" value="Login"/>
 </form>
 <br></br>
 <h2 style="color: blueviolet;">Register</h2>
-<form action="/register" id="registerForm" method="POST">
+<form action="/register" id="registerForm" method="GET">
     <p> Username: <input name="username"/></p>
     <p> Password: <input name="password" type="password"/></p>
     <input type="submit" value="Register"/>

@@ -50,7 +50,7 @@
               <li> ISBN: $tip.isbn</li>
             #end  
             #if($tip.url != "")
-            <li> URL:<a href="$tip.url">$tip.url</a></li>
+            <li> URL:<a href="$tip.url"> $tip.url</a></li>
             #end
           #elseif ($tip.type == "Podcast")
             #if($tip.author != "")
@@ -60,15 +60,15 @@
               <li> Description: $tip.description</li>
             #end
             #if($tip.url != "")
-            <li> URL:<a href="$tip.url">$tip.url</a></li>
+            <li> URL:<a href="$tip.url"> $tip.url</a></li>
             #end
           #elseif ($tip.type == "Blogpost")
             #if($tip.url != "")
-            <li> URL:<a href="$tip.url">$tip.url</a></li>
+            <li> URL:<a href="$tip.url"> $tip.url</a></li>
             #end
           #elseif ($tip.type == "Video")
             #if($tip.url != "")
-              <li> URL:<a href="$tip.url">$tip.url</a></li>
+              <li> URL:<a href="$tip.url"> $tip.url</a></li>
             #end
           #end
           <form action="/tips/$tip.id" method="GET">
