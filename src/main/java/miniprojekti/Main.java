@@ -74,10 +74,10 @@ public class Main {
             if (user_id > 0) {
                 req.session().attribute(SESSION_NAME, username);
                 req.session().attribute(USER_ID, user_id);
-                model.put("logged", "Successfully logged in as " + username);
+                //model.put("logged", "Successfully logged in as " + username);
                 model.put("template", "templates/index.html");
             } else {
-                model.put("logged", "Incorrect username or password");
+                //model.put("logged", "Incorrect username or password");
                 model.put("template", "templates/login.html");
             }
             return new ModelAndView(model, LAYOUT);
