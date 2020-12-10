@@ -34,6 +34,7 @@ public class Main {
         checkSession();
         getLoginPage();
         handleLogin();
+        logOut();
         register();
         getIndexPage();
         postReadingTip();
@@ -65,6 +66,16 @@ public class Main {
         }, new VelocityTemplateEngine());
     }
     
+    private static void logOut() {
+        get("/logout", (req, res) -> {
+            req.session().removeAttribute(SESSION_NAME);
+            req.session().removeAttribute(USER_ID);
+            HashMap<String, Object> model = new HashMap<>();
+            res.redirect("/");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+    }
+    
     private static void handleLogin() {
         post("/login", (req, res) ->  {
             HashMap<String, Object> model = new HashMap<>();
@@ -74,10 +85,8 @@ public class Main {
             if (user_id > 0) {
                 req.session().attribute(SESSION_NAME, username);
                 req.session().attribute(USER_ID, user_id);
-                //model.put("logged", "Successfully logged in as " + username);
                 model.put("template", "templates/index.html");
             } else {
-                //model.put("logged", "Incorrect username or password");
                 model.put("template", "templates/login.html");
             }
             return new ModelAndView(model, LAYOUT);
