@@ -143,6 +143,7 @@ public class Stepdefs {
     }
     @When("user has created a book")
     public void readyForEditing() {
+        driver.get(baseUrl + "index");
         pageHasContent("Book");
     }
     @When("user edits the title")
