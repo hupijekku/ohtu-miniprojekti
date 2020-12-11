@@ -137,31 +137,48 @@ public class Stepdefs {
         element.sendKeys("5i2395as" + r.nextInt(10000));
         element.submit();
     }
+
     @Then("new user is created")
     public void userCreated() {
         pageHasContent("Log in");
     }
+
     @When("user has created a book")
     public void readyForEditing() {
         driver.get(baseUrl + "index");
         pageHasContent("Book");
     }
+
     @When("user edits the title")
-    public void canEditTitle(){
+    public void canEditTitle() {
         Random random = new Random();
-        //element = driver.findElement(By.xpath("//button[contains(.,'Open')]"));
-        //element.click();
+        // element = driver.findElement(By.xpath("//button[contains(.,'Open')]"));
+        // element.click();
         driver.get(baseUrl + "/tips/3");
         pageHasContent("Edit a");
-        //WebElement element = driver.findElement(By.name("editButton"));
-        //element.click();
-        //element = driver.findElement(By.name("title"));
-        //element.sendKeys("CucumberEdit" + random.nextInt(10000));
-        //element.submit();
+        // WebElement element = driver.findElement(By.name("editButton"));
+        // element.click();
+        // element = driver.findElement(By.name("title"));
+        // element.sendKeys("CucumberEdit" + random.nextInt(10000));
+        // element.submit();
     }
+
     @Then("the tip gets saved")
-    public void editOK(){
-        //pageHasContent("Tip edited succesfully");
+    public void editOK() {
+        // pageHasContent("Tip edited succesfully");
+    }
+
+    @Given("user is on anypage")
+    public void anywhere() {
+        driver.get(baseUrl + "index");
+    }
+    @When("user sees what we have done")
+    public void userCanSee(){
+        pageHasContent(anyString());
+    }
+    @Then("it pleases the user")
+    public void userLikes(){
+        pageHasContent(anyString());
     }
 
     // apumetodit
