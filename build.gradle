@@ -61,8 +61,8 @@ jacocoTestReport {
     }
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['database/**',
-			'data_access/**'])
+            fileTree(dir: it, exclude: ['miniprojekti/database/**',
+			'miniprojekti/data_access/**'])
         }))
     }
 }
