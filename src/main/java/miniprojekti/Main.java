@@ -38,7 +38,6 @@ public class Main {
         register();
         getIndexPage();
         postReadingTip();
-        getReadingTipsPage();
         addReadingTipPage();
         singleTipPage();
         deleteTip();
@@ -222,22 +221,6 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
-    }
-
-    private static void getReadingTipsPage() {
-        get("/tips", (req, res) -> {
-            HashMap<String, Object> model = new HashMap<>();
-
-            int user_id = req.session().attribute(USER_ID);
-            model.put("tips", LOGIC.retrieveAllTips(user_id));
-            model.put("template", "templates/tips.html");
-            
-            ArrayList<String> errors = new ArrayList<>();
-            errors.add("111111111111");
-            model.put("errors", errors);
-
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
     }
 
     private static void singleTipPage() {
