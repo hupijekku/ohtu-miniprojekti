@@ -7,6 +7,8 @@ Ohjelmistotuotannon miniprojekti 2020
 
 [Sovellus verkossa](http://readingtips.herokuapp.com/)
 
+[Loppuraportti](https://docs.google.com/document/d/1X9qXfzwgbPheXPgLW-dDqBk1Qlq9PqT9jRUONCKR9LE/edit?usp=sharing)
+
 DoD:
 - Koodimme on selkeää, yksikkö- ja järjestelmätestattua.
 - Katselmoimme koodia jatkuvasti.
